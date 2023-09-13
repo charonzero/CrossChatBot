@@ -1,0 +1,46 @@
+{
+	"nodes": [
+		{
+			"id": "start",
+			"actions": [
+				{
+					"type": "typing",
+					"duration": 2000
+				},
+				{
+					"type": "message",
+					"content": "Welcome to our service!"
+				},
+				{
+					"type": "image",
+					"url": "https://example.com/welcome-image.jpg"
+				}
+			],
+			"options": [
+				{
+					"text": "Tell me more",
+					"nextNodeId": "info"
+				}
+			]
+		},
+		{
+			"id": "info",
+			"actions": [
+				{
+					"type": "typing",
+					"duration": 1500
+				},
+				{
+					"type": "message",
+					"content": "We provide top-tier services for your needs!"
+				}
+			],
+			"options": [
+				{
+					"text": "Back to start",
+					"nextNodeId": "start"
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "unified-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.17",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.3.1",
+    "dotenv-safe": "^8.2.0",
+    "express": "^4.18.2",
+    "messaging-api-messenger": "^1.1.0",
+    "messaging-api-telegram": "^1.1.0",
+    "messaging-api-viber": "^1.1.0",
+    "mongoose": "^7.5.1",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "@types/dotenv-safe": "^8.1.2"
+  }
+}
