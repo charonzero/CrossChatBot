@@ -1,0 +1,21 @@
+# Node.js related
+node_modules/
+npm-debug.log
+yarn-error.log
+.package-lock.json
+yarn.lock
+.env
+
+# IDE-related
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Cache
+.cache/
+
+# OS related
+.DS_Store
+Thumbs.db
