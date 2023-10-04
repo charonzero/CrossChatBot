@@ -15,10 +15,12 @@ const client = new ViberClient({
 client.setWebhook(process.env.NGROK_URL + '/api/viber');
 
 export const sendViberMessage = async (receiverId: string, action: any) => {
+
   try {
+    let result;
     switch (action.type) {
       case 'text':
-        await client.sendMessage(receiverId, {
+        result = await client.sendMessage(receiverId, {
           type: 'text',
           text: action.content.text,
           sender: {
@@ -28,7 +30,7 @@ export const sendViberMessage = async (receiverId: string, action: any) => {
         break;
 
       case 'image':
-        await client.sendMessage(receiverId, {
+        result = await client.sendMessage(receiverId, {
           type: 'picture',
           text: action.content.caption || '',
           media: action.content.url,
@@ -39,7 +41,7 @@ export const sendViberMessage = async (receiverId: string, action: any) => {
         break;
 
       case 'audio':
-        await client.sendMessage(receiverId, {
+        result = await client.sendMessage(receiverId, {
           type: 'file',
           media: action.content.url,
           size: 0, // You might need the actual file size here
@@ -51,7 +53,7 @@ export const sendViberMessage = async (receiverId: string, action: any) => {
         break;
 
       case 'video':
-        await client.sendMessage(receiverId, {
+        result = await client.sendMessage(receiverId, {
           type: 'video',
           media: action.content.url,
           size: 0, // You might need the actual file size here
@@ -64,6 +66,7 @@ export const sendViberMessage = async (receiverId: string, action: any) => {
       default:
         console.log(`Unsupported Viber message type: ${action.type}`);
     }
+    console.log(result);
   } catch (error: any) {
     console.error(`Error sending Viber message: ${error.message}`);
   }

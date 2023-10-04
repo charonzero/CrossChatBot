@@ -18,8 +18,11 @@
     "messaging-api-messenger": "^1.1.0",
     "messaging-api-telegram": "^1.1.0",
     "messaging-api-viber": "^1.1.0",
-    "mongoose": "^7.5.1",
+    "mongodb": "^6.1.0",
+    "mongoose": "^7.5.3",
     "nodemon": "^3.0.1",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
