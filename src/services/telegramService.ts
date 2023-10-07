@@ -15,7 +15,8 @@ client.setWebhook(process.env.NGROK_URL + '/api/telegram');
 export const sendTelegramMessage = async (receiverId: string, action: any) => {
   switch (action.type) {
     case 'text':
-      await client.sendMessage(receiverId, action.content.text);
+      const result = await client.sendMessage(receiverId, action.content.text);
+      // console.log(result)
       break;
 
     case 'image':

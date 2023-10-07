@@ -22,9 +22,11 @@ initializeSocketIo(httpServer);
 
 app.use(bodyParser.json());
 app.use('/api', messagingRoutes);
-
+app.get('/', (req, res) => {
+  res.send('Hello from the /index route!');
+});
 const PORT = process.env.PORT || 5000;
 
 httpServer.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT} : ${process.env.NGROK_URL}`);
 });

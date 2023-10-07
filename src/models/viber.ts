@@ -25,7 +25,7 @@ const ViberMessageSchema = new mongoose.Schema({
   userId: { type: String, ref: 'ViberUser', required: true },
   message: { type: ViberMessageContentSchema, required: true },
   direction: { type: String, enum: ['incoming', 'outgoing', 'bot'] },
-  status: { type: String, enum: ['message', 'delivered', 'seen', 'deleted'], default: 'message' }
+  status: { type: String, enum: ['message', 'delivered', 'seen', 'deleted', 'sending', 'failed'], default: 'message' }
 });
 
 const ViberUser = mongoose.model('ViberUser', ViberUserSchema);

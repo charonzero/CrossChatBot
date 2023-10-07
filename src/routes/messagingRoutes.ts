@@ -7,7 +7,7 @@ import * as viberService from '../services/viberService';
 import getActionFromBody from '../utils/getActionFromBody';
 import { getSocketIo } from '../socketManager';  // Update the path accordingly
 import storeData from '../utils/storeData';
-import { storePayload } from '../repository/viber';
+import { storeViberPayload } from '../repository/viberRepository';
 
 const router = express.Router();
 
@@ -28,34 +28,29 @@ const handleAndEchoMessage = async (
     }
 };
 
-// router.post('/viber', (req, res) => {
-//     // storeData(req.body, 'viber_payload.json');
-//     if (req.body.event === 'message') {
-//         const receiverId = req.body.sender.id;
-//         const action = getActionFromBody(req.body, 'viber');
-
-//         if (action) {
-//             handleAndEchoMessage(viberService.sendViberMessage, receiverId, action, res);
-//         } else {
-//             res.status(400).send({ error: 'Unsupported or undefined Viber message type' });
-//         }
-//     } else {
-//         res.send({ success: true });
-//     }
-// });
 router.post('/viber', async (req, res) => {
-    try {
-        await storePayload(req.body);
+    // storeData(req.body, 'viber_payload.json');
+    // console.log(req.body)
+    await storeViberPayload(req.body);
+    if (req.body.event === 'message') {
+        const receiverId = req.body.sender.id;
+        const action = getActionFromBody(req.body, 'viber');
+
+        if (action) {
+            handleAndEchoMessage(viberService.sendViberMessage, receiverId, action, res);
+        } else {
+            res.status(400).send({ error: 'Unsupported or undefined Viber message type' });
+        }
+    } else {
         res.send({ success: true });
-    } catch (error: any) {
-        console.error('Error processing request:', error);
-        res.status(500).send({ success: false, error: error.message });
     }
 });
 
 
+
 router.post('/telegram', (req, res) => {
-    storeData(req.body, 'telegram_payload.json');
+    // storeData(req.body, 'telegram_payload.json');
+    console.log(req.body)
     if (!req.body.message) {
         return res.status(400).send('Invalid Telegram request');
     }

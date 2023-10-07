@@ -1,73 +1,103 @@
 import { ViberClient } from 'messaging-api-viber';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import { ViberMessage } from '../models/viber';
+import { Message } from 'messaging-api-viber/dist/ViberTypes';
+import { storeViberMessageData } from '../repository/viberRepository';
 
 try {
-  dotenv.config(); // Load environment variables from .env
+  dotenv.config();
 } catch (error) {
   console.error('Error loading .env file in service:', error);
 }
+
 const client = new ViberClient({
   accessToken: process.env.VIBER_ACCESS_TOKEN || 'Error',
   sender: {
-    name: 'Sender',
+    name: 'NEC Chat',
   },
 });
 client.setWebhook(process.env.NGROK_URL + '/api/viber');
 
 export const sendViberMessage = async (receiverId: string, action: any) => {
-
   try {
     let result;
+    let messageType;
+    let messageContent = {};
+    let sentMessageData;
+    const SenderName = "NEC Bot";
+
     switch (action.type) {
       case 'text':
-        result = await client.sendMessage(receiverId, {
-          type: 'text',
+        messageType = 'text';
+        messageContent = {
+          type: messageType,
           text: action.content.text,
           sender: {
-            name: 'Sender',
+            name: SenderName,
           }
-        });
+        };
+        result = await client.sendMessage(receiverId, messageContent as Message);
         break;
 
       case 'image':
-        result = await client.sendMessage(receiverId, {
-          type: 'picture',
+        messageType = 'picture';
+        messageContent = {
+          type: messageType,
           text: action.content.caption || '',
           media: action.content.url,
           sender: {
-            name: 'Sender',
+            name: SenderName,
           }
-        });
+        };
+        result = await client.sendMessage(receiverId, messageContent as Message);
         break;
 
       case 'audio':
-        result = await client.sendMessage(receiverId, {
+        messageType = 'audio';
+        messageContent = {
           type: 'file',
           media: action.content.url,
-          size: 0, // You might need the actual file size here
-          fileName: 'audiofile.ext', // You might need the actual filename here
+          size: 0,
+          fileName: 'audiofile.ext',
           sender: {
-            name: 'Sender',
+            name: SenderName,
           }
-        });
+        };
+        result = await client.sendMessage(receiverId, messageContent as Message);
         break;
 
       case 'video':
-        result = await client.sendMessage(receiverId, {
-          type: 'video',
+        messageType = 'video';
+        messageContent = {
+          type: messageType,
           media: action.content.url,
-          size: 0, // You might need the actual file size here
+          size: 0,
           sender: {
-            name: 'Sender',
+            name: SenderName,
           }
-        });
+        };
+        result = await client.sendMessage(receiverId, messageContent as Message);
         break;
 
       default:
         console.log(`Unsupported Viber message type: ${action.type}`);
+        return;
     }
+
+    await storeViberMessageData(
+      result.messageToken,
+      receiverId,
+      messageContent,
+      'outgoing',
+      'sending'
+    );
+    console.log('Outgoing Viber message stored successfully');
+
     console.log(result);
   } catch (error: any) {
     console.error(`Error sending Viber message: ${error.message}`);
   }
 };
+
+

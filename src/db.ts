@@ -9,9 +9,6 @@ const connectDB = async () => {
         await mongoose.connect('mongodb://127.0.0.1:27017/cross-chat-bot')
             .then(() => console.log('Database connected!'))
             .catch(err => console.log(`DB connection error: ${err.message}`));
-
-
-        console.log('MongoDB connected');
     } catch (error: any) {
         console.error('Error connecting to MongoDB:', error.message);
         process.exit(1);

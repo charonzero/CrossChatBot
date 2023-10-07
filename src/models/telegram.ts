@@ -36,5 +36,8 @@ const TelegramMessageSchema = new mongoose.Schema({
   status: { type: String, enum: ['message', 'delivered', 'seen', 'deleted'], default: 'message' }
 });
 
-module.exports = mongoose.model('TelegramUser', TelegramUserSchema);
-module.exports = mongoose.model('TelegramMessage', TelegramMessageSchema);
+const TelegramUser = mongoose.model('TelegramUser', TelegramUserSchema);
+const TelegramMessage = mongoose.model('TelegramMessage', TelegramMessageSchema);
+
+export { TelegramUser, TelegramMessage };
+
